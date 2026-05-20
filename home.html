@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alhnouf Alenezi — Front-End Developer</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@300;400;500&family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0d1229;
+  --navy-deep: #080d1c;
+  --navy-card: #111830;
+  --navy-mid: #16203a;
+  --navy-light: #1d2b4a;
+  --blue: #4a7fff;
+  --blue-light: #6b9fff;
+  --cyan: #3ecfec;
+  --purple: #7b5cd6;
+  --fg: #e8eeff;
+  --fg-muted: #7a88b0;
+  --fg-dim: #445070;
+  --border: rgba(74,127,255,0.12);
+  --border-b: rgba(74,127,255,0.28);
+  --serif: 'Instrument Serif', serif;
+  --sans: 'Geist', sans-serif;
+  --mono: 'DM Mono', monospace;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--navy-deep);
+  color: var(--fg);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: linear-gradient(rgba(74,127,255,.024) 1px, transparent 1px), linear-gradient(90deg, rgba(74,127,255,.024) 1px, transparent 1px);
+  background-size: 52px 52px;
+  pointer-events: none;
+  z-index: 0;
+}
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--navy-deep); }
+::-webkit-scrollbar-thumb { background: var(--blue); border-radius: 2px; }
+
+.cur, .cur-r {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+}
+.cur {
+  width: 9px;
+  height: 9px;
+  background: var(--cyan);
+  transition: transform .15s;
+}
+.cur-r {
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(62,207,236,.3);
+  transition: transform .18s ease, opacity .2s ease;
+}
+
+.grad-text {
+  background: linear-gradient(135deg, var(--purple) 0%, var(--blue) 50%, var(--cyan) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem 3.5rem;
+  background: rgba(8,13,28,.88);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: .85rem;
+  text-decoration: none;
+}
+.nav-brand-mark {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, rgba(123,92,214,.18), rgba(74,127,255,.18));
+  border: 1px solid rgba(74,127,255,.18);
+  box-shadow: 0 0 20px rgba(74,127,255,.14);
+  font-family: var(--serif);
+  color: var(--fg);
+  font-size: 1.05rem;
+}
+.nav-brand-text {
+  display: flex;
+  flex-direction: column;
+  gap: .04rem;
+}
+.nav-brand-name {
+  font-family: var(--mono);
+  font-size: .78rem;
+  font-weight: 500;
+  letter-spacing: .14em;
+  color: var(--fg);
+}
+.nav-brand-role {
+  font-family: var(--mono);
+  font-size: .56rem;
+  letter-spacing: .12em;
+  color: var(--fg-muted);
+  text-transform: uppercase;
+}
+.nav-links {
+  display: flex;
+  gap: .2rem;
+  list-style: none;
+}
+.nav-links a {
+  font-family: var(--mono);
+  font-size: .68rem;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  text-decoration: none;
+  padding: .45rem .8rem;
+  border-radius: 3px;
+  transition: color .2s, background .2s;
+}
+.nav-links a:hover {
+  color: var(--cyan);
+  background: rgba(62,207,236,.06);
+}
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: .7rem;
+}
+.lang-btn {
+  font-family: var(--mono);
+  font-size: .7rem;
+  letter-spacing: .1em;
+  padding: .45rem .9rem;
+  border: 1px solid var(--border-b);
+  border-radius: 4px;
+  cursor: pointer;
+  background: none;
+  color: var(--fg-muted);
+  transition: all .2s;
+  font-weight: 500;
+}
+.lang-btn:hover, .lang-btn.active {
+  border-color: var(--cyan);
+  color: var(--cyan);
+  background: rgba(62,207,236,.06);
+}
+.nav-cta {
+  font-family: var(--mono);
+  font-size: .7rem;
+  letter-spacing: .08em;
+  padding: .45rem 1.1rem;
+  background: linear-gradient(135deg, var(--purple), var(--blue));
+  color: #fff;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: opacity .2s, box-shadow .2s;
+  box-shadow: 0 0 20px rgba(74,127,255,.2);
+}
+.nav-logo{
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 12px; /* اختياري */
+}
+.nav-cta:hover { opacity: .88; box-shadow: 0 0 35px rgba(74,127,255,.4); }
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: .3rem;
+  background: none;
+  border: none;
+}
+.hamburger span {
+  width: 22px;
+  height: 2px;
+  background: var(--fg-muted);
+  border-radius: 2px;
+  transition: all .3s;
+}
+.mobile-nav {
+  display: none;
+  position: fixed;
+  top: 60px;
+  left: 0;
+  right: 0;
+  background: rgba(8,13,28,.97);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 1.5rem;
+  z-index: 99;
+  flex-direction: column;
+  gap: .5rem;
+}
+.mobile-nav.open { display: flex; }
+.mobile-nav a {
+  font-family: var(--mono);
+  font-size: .78rem;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  text-decoration: none;
+  padding: .65rem 1rem;
+  border-radius: 4px;
+  transition: color .2s, background .2s;
+}
+.mobile-nav a:hover {
+  color: var(--cyan);
+  background: rgba(62,207,236,.06);
+}
+
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 9rem 3.5rem 5rem;
+  position: relative;
+  overflow: hidden;
+}
+.hero-glow {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.hg1 { top: -5%; left: -5%; width: 600px; height: 600px; background: radial-gradient(circle, rgba(123,92,214,.1) 0%, transparent 65%); }
+.hg2 { bottom: -5%; right: -5%; width: 700px; height: 700px; background: radial-gradient(circle, rgba(62,207,236,.07) 0%, transparent 65%); }
+.hg3 { top: 45%; left: 48%; width: 400px; height: 400px; background: radial-gradient(circle, rgba(74,127,255,.06) 0%, transparent 65%); }
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 5rem;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: .6rem;
+  background: rgba(74,127,255,.08);
+  border: 1px solid rgba(74,127,255,.2);
+  border-radius: 100px;
+  padding: .35rem 1rem;
+  font-family: var(--mono);
+  font-size: .66rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--blue-light);
+  margin-bottom: 2rem;
+  animation: fadeUp .8s ease both;
+}
+.tag-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--cyan);
+  animation: blink 2s infinite;
+}
+.hero-name {
+  font-family: var(--serif);
+  font-size: clamp(3.2rem, 5.5vw, 6rem);
+  line-height: 1.0;
+  letter-spacing: -.02em;
+  margin-bottom: .8rem;
+  animation: fadeUp .8s .08s ease both;
+}
+.hero-role {
+  font-family: var(--mono);
+  font-size: .85rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin-bottom: 2rem;
+  animation: fadeUp .8s .16s ease both;
+}
+.hero-bio {
+  font-size: .97rem;
+  color: var(--fg-muted);
+  line-height: 1.9;
+  max-width: 560px;
+  margin-bottom: 3rem;
+  animation: fadeUp .8s .24s ease both;
+}
+.hero-bio strong { color: var(--fg); font-weight: 600; }
+.hero-btns {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  animation: fadeUp .8s .32s ease both;
+}
+.btn-p {
+  background: linear-gradient(135deg, var(--purple), var(--blue));
+  color: #fff;
+  padding: .82rem 2rem;
+  border-radius: 4px;
+  font-family: var(--mono);
+  font-size: .73rem;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  font-weight: 500;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: opacity .2s, box-shadow .2s, transform .2s;
+  box-shadow: 0 0 28px rgba(74,127,255,.22);
+}
+.btn-p:hover { opacity: .88; box-shadow: 0 0 45px rgba(74,127,255,.42); transform: translateY(-2px); }
+.btn-g {
+  background: transparent;
+  color: var(--fg);
+  padding: .82rem 2rem;
+  border-radius: 4px;
+  font-family: var(--mono);
+  font-size: .73rem;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  font-weight: 500;
+  text-decoration: none;
+  border: 1px solid var(--border-b);
+  cursor: pointer;
+  transition: border-color .2s, color .2s, background .2s;
+}
+.btn-g:hover { border-color: var(--cyan); color: var(--cyan); background: rgba(62,207,236,.05); }
+.hero-stats {
+  display: flex;
+  gap: 3rem;
+  margin-top: 3.5rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--border);
+  animation: fadeUp .8s .4s ease both;
+  flex-wrap: wrap;
+}
+.stat { display: flex; flex-direction: column; gap: .3rem; }
+.stat-n { font-family: var(--serif); font-size: 2.5rem; line-height: 1; }
+.stat-l { font-family: var(--mono); font-size: .62rem; letter-spacing: .1em; text-transform: uppercase; color: var(--fg-dim); }
+.hero-logo-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  animation: fadeUp .8s .2s ease both;
+}
+.hero-logo-glow {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(123,92,214,.15) 0%, rgba(74,127,255,.1) 40%, rgba(62,207,236,.05) 65%, transparent 75%);
+  border-radius: 50%;
+  animation: logoGlow 4s ease-in-out infinite alternate;
+}
+.hero-logo {
+  width: 230px;
+  height: 230px;
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(123,92,214,.12), rgba(74,127,255,.12));
+  border: 1px solid rgba(74,127,255,.18);
+  box-shadow: 0 0 28px rgba(74,127,255,.22), 0 0 55px rgba(123,92,214,.12);
+  font-family: var(--serif);
+  font-size: 4.6rem;
+  color: var(--fg);
+  animation: logoFloat 6s ease-in-out infinite;
+}
+
+section { padding: 7rem 3.5rem; position: relative; }
+.sec-header { display: flex; align-items: center; gap: 1.5rem; margin-bottom: 4.5rem; }
+.sec-num { font-family: var(--mono); font-size: .63rem; letter-spacing: .12em; color: var(--cyan); opacity: .55; }
+.sec-title { font-family: var(--serif); font-size: clamp(1.8rem, 3.5vw, 2.8rem); letter-spacing: -.02em; font-weight: 400; }
+.sec-rule { flex: 1; height: 1px; background: linear-gradient(to right, var(--border-b), transparent); }
+[dir="rtl"] .sec-rule { background: linear-gradient(to left, var(--border-b), transparent); }
+.sec-wrap { max-width: 1200px; margin: 0 auto; }
+
+#about { background: var(--navy); }
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start; }
+.about-text p { font-size: .96rem; color: var(--fg-muted); line-height: 2; margin-bottom: 1.5rem; }
+.about-text p strong { color: var(--fg); font-weight: 600; }
+.about-bq { border-left: 2px solid var(--cyan); padding-left: 1.5rem; margin: 2.5rem 0; }
+[dir="rtl"] .about-bq { border-left: none; border-right: 2px solid var(--cyan); padding-left: 0; padding-right: 1.5rem; }
+.about-bq p { font-family: var(--serif); font-size: 1.2rem; font-style: italic; color: var(--fg); line-height: 1.6; }
+.skills-cols { display: flex; flex-direction: column; gap: 2.3rem; }
+.sg-lbl { font-family: var(--mono); font-size: .6rem; letter-spacing: .14em; text-transform: uppercase; color: var(--fg-dim); margin-bottom: .85rem; padding-bottom: .5rem; border-bottom: 1px solid var(--border); }
+.pills { display: flex; flex-wrap: wrap; gap: .45rem; }
+.pill { font-family: var(--mono); font-size: .67rem; padding: .36rem .82rem; border: 1px solid var(--border); border-radius: 100px; color: var(--fg-muted); background: var(--navy-card); transition: border-color .2s, color .2s; }
+.pill:hover { border-color: var(--blue); color: var(--blue-light); }
+.pill.a { background: linear-gradient(135deg, rgba(123,92,214,.15), rgba(74,127,255,.15)); border-color: rgba(74,127,255,.3); color: var(--blue-light); }
+
+#projects { background: var(--navy-deep); }
+.projects-list { display: flex; flex-direction: column; gap: 1.2rem; }
+.pcard { background: var(--navy-card); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; cursor: pointer; transition: border-color .3s, box-shadow .3s; }
+.pcard:hover { border-color: rgba(74,127,255,.25); box-shadow: 0 8px 40px rgba(74,127,255,.06); }
+.pcard-head { padding: 1.75rem 2.5rem; display: grid; grid-template-columns: 32px 1fr auto auto; align-items: center; gap: 1.5rem; }
+.p-idx { font-family: var(--mono); font-size: .63rem; letter-spacing: .08em; color: var(--cyan); opacity: .55; }
+.p-meta { display: flex; flex-direction: column; gap: .28rem; }
+.p-name { font-family: var(--serif); font-size: 1.28rem; letter-spacing: -.01em; font-weight: 400; color: var(--fg); }
+.p-line { font-size: .78rem; color: var(--fg-muted); }
+.p-badges { display: flex; gap: .45rem; flex-wrap: wrap; }
+.pbadge { font-family: var(--mono); font-size: .58rem; padding: .2rem .55rem; border-radius: 100px; font-weight: 500; letter-spacing: .04em; }
+.pb-blue { background: rgba(74,127,255,.1); color: var(--blue-light); border: 1px solid rgba(74,127,255,.22); }
+.pb-cyan { background: rgba(62,207,236,.08); color: var(--cyan); border: 1px solid rgba(62,207,236,.18); }
+.pb-purple { background: rgba(123,92,214,.1); color: #a088e8; border: 1px solid rgba(123,92,214,.22); }
+.pb-gold { background: rgba(255,196,0,.08); color: #ffc400; border: 1px solid rgba(255,196,0,.2); }
+.p-toggle { width: 29px; height: 29px; border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--fg-muted); font-size: .8rem; transition: background .25s, border-color .25s, transform .35s, color .25s; flex-shrink: 0; }
+.pcard.open .p-toggle { transform: rotate(45deg); background: linear-gradient(135deg, var(--purple), var(--blue)); color: #fff; border-color: transparent; }
+.pcard-body { max-height: 0; overflow: hidden; transition: max-height .6s cubic-bezier(.23,1,.32,1); }
+.pcard.open .pcard-body { max-height: 2200px; }
+.pcard-inner { padding: 2.5rem; display: grid; grid-template-columns: 1fr 290px; gap: 2.5rem; border-top: 1px solid var(--border); }
+.cb-lbl { font-family: var(--mono); font-size: .59rem; letter-spacing: .14em; text-transform: uppercase; color: var(--fg-dim); margin-bottom: .72rem; }
+.cb-desc { font-size: .88rem; line-height: 1.9; color: var(--fg-muted); margin-bottom: 1.8rem; }
+.cb-desc strong { color: var(--fg); font-weight: 600; }
+.feats { list-style: none; display: flex; flex-direction: column; gap: .5rem; margin-bottom: 1.8rem; }
+.feats li { font-size: .82rem; color: var(--fg-muted); padding-left: 1.2rem; position: relative; line-height: 1.65; }
+[dir="rtl"] .feats li { padding-left: 0; padding-right: 1.2rem; }
+.feats li::before { content: '→'; position: absolute; left: 0; color: var(--cyan); font-size: .73rem; }
+[dir="rtl"] .feats li::before { left: auto; right: 0; content: '←'; }
+.tech-stack { display: flex; flex-direction: column; gap: 1.6rem; }
+.t-pills { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .55rem; }
+.tp { font-family: var(--mono); font-size: .65rem; padding: .28rem .65rem; border: 1px solid var(--border); border-radius: 3px; color: var(--fg-muted); background: var(--navy-mid); transition: border-color .2s, color .2s; }
+.tp:hover { border-color: var(--blue); color: var(--blue-light); }
+.gh-link { display: inline-flex; align-items: center; gap: .55rem; margin-top: 1.5rem; padding: .62rem 1.3rem; background: linear-gradient(135deg, rgba(123,92,214,.14), rgba(74,127,255,.14)); border: 1px solid rgba(74,127,255,.24); border-radius: 4px; font-family: var(--mono); font-size: .7rem; font-weight: 500; color: var(--blue-light); text-decoration: none; letter-spacing: .06em; transition: all .25s; width: fit-content; }
+.gh-link:hover { border-color: var(--blue); box-shadow: 0 0 18px rgba(74,127,255,.18); color: var(--cyan); }
+
+#experience { background: var(--navy); }
+.exp-list { display: flex; flex-direction: column; gap: 1.5rem; }
+.exp-card { background: var(--navy-card); border: 1px solid var(--border); border-radius: 6px; padding: 2.2rem 2.5rem; position: relative; overflow: hidden; transition: border-color .3s; }
+.exp-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: linear-gradient(to bottom, var(--purple), var(--blue), var(--cyan)); }
+[dir="rtl"] .exp-card::before { left: auto; right: 0; }
+.exp-card:hover { border-color: rgba(74,127,255,.25); }
+.exp-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: .9rem; gap: 1rem; }
+.exp-role { font-family: var(--serif); font-size: 1.35rem; font-weight: 400; letter-spacing: -.01em; color: var(--fg); margin-bottom: .3rem; }
+.exp-co { font-family: var(--mono); font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; color: var(--blue-light); }
+.exp-dur { font-family: var(--mono); font-size: .63rem; letter-spacing: .08em; text-transform: uppercase; color: var(--cyan); background: rgba(62,207,236,.08); border: 1px solid rgba(62,207,236,.18); padding: .28rem .65rem; border-radius: 100px; flex-shrink: 0; }
+.exp-desc { font-size: .86rem; color: var(--fg-muted); line-height: 1.85; margin-bottom: 1.4rem; }
+.exp-achs { display: flex; flex-direction: column; gap: .45rem; }
+.exp-ach { display: flex; gap: .65rem; font-size: .82rem; color: var(--fg-muted); line-height: 1.6; }
+.ach-dot { color: var(--purple); flex-shrink: 0; margin-top: .12rem; }
+
+#skills { background: var(--navy-deep); }
+.skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; margin-bottom: 4.5rem; }
+.s-col-head { display: flex; align-items: center; gap: .85rem; margin-bottom: 2.2rem; }
+.s-col-icon { width: 34px; height: 34px; background: linear-gradient(135deg, var(--purple), var(--blue)); border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: .95rem; }
+.s-col-title { font-family: var(--serif); font-size: 1.35rem; letter-spacing: -.01em; color: var(--fg); }
+.skill-chips { display: flex; flex-wrap: wrap; gap: .55rem; }
+.sc { font-family: var(--mono); font-size: .68rem; padding: .52rem .9rem; border: 1px solid var(--border); border-radius: 5px; color: var(--fg-muted); background: var(--navy-mid); transition: border-color .25s, color .25s, background .25s, box-shadow .25s; cursor: default; }
+.sc:hover { border-color: var(--blue); color: var(--blue-light); background: rgba(74,127,255,.05); box-shadow: 0 0 14px rgba(74,127,255,.1); }
+.tech-strip { padding-top: 3.5rem; border-top: 1px solid var(--border); }
+.ts-title { text-align: center; font-family: var(--mono); font-size: .67rem; letter-spacing: .14em; text-transform: uppercase; color: var(--fg-dim); margin-bottom: 1.8rem; }
+.ts-chips { display: flex; flex-wrap: wrap; gap: .65rem; justify-content: center; }
+.tsc { font-family: var(--mono); font-size: .68rem; padding: .45rem 1rem; background: linear-gradient(135deg, rgba(123,92,214,.07), rgba(74,127,255,.07), rgba(62,207,236,.07)); border: 1px solid rgba(74,127,255,.16); border-radius: 100px; color: var(--fg-muted); cursor: default; transition: all .25s; }
+.tsc:hover { border-color: var(--cyan); color: var(--cyan); box-shadow: 0 0 18px rgba(62,207,236,.1); }
+
+#education { background: var(--navy); }
+.edu-wrap { max-width: 800px; margin: 0 auto; }
+.edu-card { background: var(--navy-card); border: 1px solid var(--border-b); border-radius: 8px; padding: 3rem; position: relative; overflow: hidden; transition: border-color .3s, box-shadow .3s; }
+.edu-card::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(123,92,214,.06), transparent 70%); pointer-events: none; }
+.edu-card:hover { border-color: rgba(123,92,214,.38); box-shadow: 0 0 45px rgba(74,127,255,.07); }
+.edu-top { display: flex; align-items: flex-start; gap: 1.4rem; margin-bottom: 2rem; }
+.edu-icon-wrap { width: 54px; height: 54px; flex-shrink: 0; background: linear-gradient(135deg, rgba(123,92,214,.2), rgba(74,127,255,.2)); border: 1px solid rgba(74,127,255,.2); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.55rem; }
+.edu-degree { font-family: var(--serif); font-size: 1.75rem; letter-spacing: -.02em; font-weight: 400; color: var(--fg); margin-bottom: .4rem; line-height: 1.2; }
+.edu-univ { font-family: var(--mono); font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--blue-light); }
+.edu-status { display: flex; align-items: center; gap: .75rem; padding: .85rem 1.1rem; background: rgba(62,207,236,.05); border: 1px solid rgba(62,207,236,.1); border-radius: 5px; margin-bottom: 1.1rem; }
+.edu-s-dot { width: 6px; height: 6px; background: var(--cyan); border-radius: 50%; animation: blink 2s infinite; flex-shrink: 0; }
+.edu-s-text { font-family: var(--mono); font-size: .7rem; letter-spacing: .08em; color: var(--cyan); }
+.edu-grad { display: flex; align-items: center; gap: .6rem; font-size: .85rem; color: var(--fg-muted); }
+.edu-grad span { color: var(--fg); font-weight: 600; }
+.edu-bio { margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border); font-size: .87rem; color: var(--fg-muted); line-height: 1.9; }
+
+#contact { background: var(--navy-deep); }
+.contact-wrap { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start; }
+.contact-h { font-family: var(--serif); font-size: clamp(2rem, 4vw, 3.4rem); letter-spacing: -.03em; font-weight: 400; line-height: 1.15; margin-bottom: 1.4rem; }
+.contact-sub { font-size: .9rem; color: var(--fg-muted); line-height: 1.9; }
+.contact-rows { display: flex; flex-direction: column; }
+.crow { display: grid; grid-template-columns: 90px 1fr; align-items: center; padding: .85rem 0; border-bottom: 1px solid var(--border); gap: 1rem; }
+.crow:first-child { border-top: 1px solid var(--border); }
+.crow-k { font-family: var(--mono); font-size: .58rem; letter-spacing: .1em; text-transform: uppercase; color: var(--fg-dim); }
+.crow-v { font-size: .87rem; font-weight: 500; color: var(--fg); text-decoration: none; transition: color .2s; }
+.crow-v:hover { color: var(--cyan); }
+
+footer { background: var(--navy-deep); border-top: 1px solid var(--border); padding: 3rem 3.5rem; }
+.footer-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 3rem; margin-bottom: 2.5rem; }
+.footer-brand-name { font-family: var(--serif); font-size: 1.35rem; letter-spacing: -.01em; color: var(--fg); margin-bottom: .35rem; }
+.footer-brand-role { font-family: var(--mono); font-size: .65rem; letter-spacing: .1em; text-transform: uppercase; color: var(--fg-muted); }
+.footer-col-lbl { font-family: var(--mono); font-size: .62rem; letter-spacing: .12em; text-transform: uppercase; color: var(--fg-dim); margin-bottom: .9rem; }
+.footer-links, .footer-socials { display: flex; flex-direction: column; gap: .55rem; }
+.footer-links a, .fsocial { font-size: .83rem; color: var(--fg-muted); text-decoration: none; transition: color .2s; }
+.footer-links a:hover, .fsocial:hover { color: var(--cyan); }
+.footer-bottom { max-width: 1200px; margin: 0 auto; padding-top: 1.8rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
+.footer-copy { font-family: var(--mono); font-size: .63rem; letter-spacing: .07em; color: var(--fg-dim); }
+
+[data-lang] { display: none; }
+html[lang="en"] [data-lang="en"], html[lang="ar"] [data-lang="ar"] { display: initial; }
+html[lang="en"] .lang-block-en, html[lang="ar"] .lang-block-ar { display: block; }
+html[lang="en"] .lang-flex-en, html[lang="ar"] .lang-flex-ar { display: flex; }
+html[lang="en"] .lang-inline-en, html[lang="ar"] .lang-inline-ar { display: inline; }
+html[lang="en"] .lang-inlineflex-en, html[lang="ar"] .lang-inlineflex-ar { display: inline-flex; }
+html[lang="en"] .lang-grid-en, html[lang="ar"] .lang-grid-ar { display: grid; }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+@keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: .3; } }
+@keyframes logoGlow { from { transform: scale(1); opacity: .8; } to { transform: scale(1.08); opacity: 1; } }
+@keyframes logoFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+.r { opacity: 0; transform: translateY(24px); transition: opacity .72s ease, transform .72s ease; }
+.r.vis { opacity: 1; transform: none; }
+.r.d1 { transition-delay: .1s; }
+.r.d2 { transition-delay: .2s; }
+.r.d3 { transition-delay: .3s; }
+
+@media (max-width: 980px) {
+  nav, .hero, section, footer { padding-left: 1.5rem; padding-right: 1.5rem; }
+  .nav-links, .nav-cta { display: none; }
+  .hamburger { display: flex; }
+  .hero-inner, .about-grid, .pcard-inner, .skills-grid, .contact-wrap, .footer-inner { grid-template-columns: 1fr; }
+  .hero-inner { gap: 3rem; }
+  .hero-logo-wrap { order: -1; }
+  .pcard-head { grid-template-columns: 26px 1fr auto; }
+  .p-badges { display: none; }
+}
+
+@media (max-width: 640px) {
+  .hero-stats { gap: 1.6rem; }
+  .hero-name { font-size: clamp(2.6rem, 10vw, 4rem); }
+  .pcard-head, .pcard-inner, .exp-card, .edu-card { padding-left: 1.25rem; padding-right: 1.25rem; }
+  .sec-header { gap: 1rem; margin-bottom: 2.8rem; }
+}
+</style>
+</head>
+<body>
+<div class="cur" id="cDot"></div>
+<div class="cur-r" id="cRing"></div>
+
+<nav>
+  <a href="#hero" class="nav-brand"><img src="logoo.png" alt="Logo" class="nav-logo">
+
+    <div class="nav-brand-text">
+      <div class="nav-brand-name">ALHNOUF ALENEZI</div>
+      
+      <div class="nav-brand-role">
+        <span data-lang="en">Front-End Developer</span>
+        <span data-lang="ar">مطورة واجهات أمامية</span>
+      </div>
+    </div>
+    
+  </a>
+
+  <ul class="nav-links">
+    <li><a href="#about"><span data-lang="en">About</span><span data-lang="ar">نبذة</span></a></li>
+    <li><a href="#projects"><span data-lang="en">Projects</span><span data-lang="ar">المشاريع</span></a></li>
+    <li><a href="#experience"><span data-lang="en">Experience</span><span data-lang="ar">الخبرة</span></a></li>
+    <li><a href="#skills"><span data-lang="en">Skills</span><span data-lang="ar">المهارات</span></a></li>
+    <li><a href="#education"><span data-lang="en">Education</span><span data-lang="ar">التعليم</span></a></li>
+    <li><a href="#contact"><span data-lang="en">Contact</span><span data-lang="ar">التواصل</span></a></li>
+  </ul>
+
+  <div class="nav-right">
+    <button class="lang-btn" id="langBtn">AR</button>
+    <a href="#contact" class="nav-cta">
+      <span data-lang="en">Get In Touch</span>
+      <span data-lang="ar">تواصل معي</span>
+    </a>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-nav" id="mobileNav">
+  <a href="#about"><span data-lang="en">About</span><span data-lang="ar">نبذة</span></a>
+  <a href="#projects"><span data-lang="en">Projects</span><span data-lang="ar">المشاريع</span></a>
+  <a href="#experience"><span data-lang="en">Experience</span><span data-lang="ar">الخبرة</span></a>
+  <a href="#skills"><span data-lang="en">Skills</span><span data-lang="ar">المهارات</span></a>
+  <a href="#education"><span data-lang="en">Education</span><span data-lang="ar">التعليم</span></a>
+  <a href="#contact"><span data-lang="en">Contact</span><span data-lang="ar">التواصل</span></a>
+</div>
+
+<header class="hero" id="hero">
+  <div class="hero-glow hg1"></div>
+  <div class="hero-glow hg2"></div>
+  <div class="hero-glow hg3"></div>
+
+  <div class="hero-inner">
+    <div>
+      <div class="hero-tag">
+        <span class="tag-dot"></span>
+        <span data-lang="en">Front-End Developer · Tabuk, Saudi Arabia</span>
+        <span data-lang="ar">مطورة واجهات أمامية · تبوك، السعودية</span>
+      </div>
+
+      <h1 class="hero-name">
+        <span data-lang="en">Alhnouf <span class="grad-text">Alenezi</span></span>
+        <span data-lang="ar">الهنوف <span class="grad-text">العنزي</span></span>
+      </h1>
+
+      <p class="hero-role">
+        <span data-lang="en">Front-End Developer</span>
+        <span data-lang="ar">مطورة واجهات أمامية</span>
+      </p>
+
+      <p class="hero-bio">
+        <span data-lang="en">Recent Graduate Management Information Systems student at the University of Tabuk and Front-End Developer focused on building clean, responsive, and well-structured digital interfaces. I currently work as Executive Administration Manager at Suhb Tech Foundation, combining technical execution with organized project coordination and digital presentation.</span>
+        <span data-lang="ar"> حديث تخرج في تخصص نظم المعلومات الإدارية بجامعة تبوك، ومطورة واجهات أمامية أركز على بناء واجهات رقمية نظيفة ومتجاوبة وذات هيكلة واضحة. أعمل حاليًا مديرة الإدارة التنفيذية في مؤسسة سهب التقنية، حيث أجمع بين التنفيذ التقني والتنظيم الإداري والعرض الرقمي للمشاريع </span>
+      </p>
+
+      <div class="hero-btns">
+        <a href="#projects" class="btn-p">
+          <span data-lang="en">View Projects</span>
+          <span data-lang="ar">عرض المشاريع</span>
+        </a>
+        <a href="#contact" class="btn-g">
+          <span data-lang="en">Contact</span>
+          <span data-lang="ar">التواصل</span>
+        </a>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat">
+          <div class="stat-n">4+</div>
+          <div class="stat-l"><span data-lang="en">Main Projects</span><span data-lang="ar">مشاريع رئيسية</span></div>
+        </div>
+        <div class="stat">
+          <div class="stat-n">5</div>
+          <div class="stat-l"><span data-lang="en">Training Days</span><span data-lang="ar">أيام تدريب</span></div>
+        </div>
+        <div class="stat">
+          <div class="stat-n">MIS</div>
+          <div class="stat-l"><span data-lang="en">Recent Graduate</span><span data-lang="ar">حديث تخرج</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-logo-wrap">
+  <div class="hero-logo-glow"></div>
+
+  <img 
+    src="logoo.png" 
+    alt="Logo" 
+    class="hero-logo"
+  >
+</div>
+</header>
+
+<section id="about">
+  <div class="sec-wrap">
+    <div class="sec-header r">
+      <div class="sec-num">01</div>
+      <h2 class="sec-title"><span data-lang="en">About Me</span><span data-lang="ar">نبذة عني</span></h2>
+      <div class="sec-rule"></div>
+    </div>
+
+    <div class="about-grid">
+      <div class="about-text r">
+        <p>
+          <span data-lang="en">I specialize in crafting high-quality front-end interfaces that balance visual clarity, responsiveness, and a well-structured user experience.</span>
+          <span data-lang="ar">أتخصص في بناء واجهات أمامية عالية الجودة تجمع بين الوضوح البصري والاستجابة وهيكلة تجربة المستخدم بشكل متقن.</span>
+        </p>
+        <p>
+          <span data-lang="en">My work focuses on transforming ideas into clean, functional, and scalable web solutions across internal systems, corporate websites, and digital platforms.</span>
+          <span data-lang="ar">يركز عملي على تحويل الأفكار إلى حلول ويب نظيفة وعملية وقابلة للتوسع، سواء في الأنظمة الداخلية أو مواقع الشركات أو المنصات الرقمية.</span>
+        </p>
+        <div class="about-bq">
+          <p>
+            <span data-lang="en">I believe the strongest interfaces are the ones that feel natural, precise, and effortless to use.</span>
+            <span data-lang="ar">أؤمن بأن أقوى الواجهات هي التي تبدو طبيعية ودقيقة وسهلة الاستخدام دون تعقيد.</span>
+          </p>
+        </div>
+        <p>
+          <span data-lang="en">In addition to development, I delivered a 5-day front-end training program and worked on projects that reflect both academic discipline and practical execution.</span>
+          <span data-lang="ar">إلى جانب التطوير، قدمت برنامجًا تدريبيًا لمدة 5 أيام في الفرونت إند، وعملت على مشاريع تعكس الجمع بين الخلفية الأكاديمية والتنفيذ العملي.</span>
+        </p>
+      </div>
+
+      <div class="skills-cols r d1">
+        <div>
+          <div class="sg-lbl"><span data-lang="en">Core Technologies</span><span data-lang="ar">التقنيات الأساسية</span></div>
+          <div class="pills">
+            <span class="pill a">HTML</span>
+            <span class="pill a">CSS</span>
+            <span class="pill a">JavaScript</span>
+            <span class="pill a">TypeScript</span>
+          </div>
+        </div>
+        <div>
+          <div class="sg-lbl"><span data-lang="en">Tools & Workflow</span><span data-lang="ar">الأدوات وسير العمل</span></div>
+          <div class="pills">
+            <span class="pill">Git & GitHub</span>
+            <span class="pill">VS Code</span>
+            <span class="pill">Figma</span>
+            <span class="pill"><span data-lang="en">Responsive Design</span><span data-lang="ar">التصميم المتجاوب</span></span>
+          </div>
+        </div>
+        <div>
+          <div class="sg-lbl"><span data-lang="en">Focus</span><span data-lang="ar">مجال التركيز</span></div>
+          <div class="pills">
+            <span class="pill"><span data-lang="en">UI Structure</span><span data-lang="ar">هيكلة الواجهات</span></span>
+            <span class="pill"><span data-lang="en">User Experience</span><span data-lang="ar">تجربة المستخدم</span></span>
+            <span class="pill"><span data-lang="en">Digital Presentation</span><span data-lang="ar">العرض الرقمي</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="sec-wrap">
+    <div class="sec-header r">
+      <div class="sec-num">02</div>
+      <h2 class="sec-title"><span data-lang="en">Projects</span><span data-lang="ar">المشاريع</span></h2>
+      <div class="sec-rule"></div>
+    </div>
+
+    <div class="projects-list">
+      <div class="pcard r" onclick="toggleProject(this)">
+        <div class="pcard-head">
+          <div class="p-idx">01</div>
+          <div class="p-meta">
+            <h3 class="p-name"><span data-lang="en">Mohammed Al-Bluwi Group System</span><span data-lang="ar">سيستم مجموعة محمد البلوي</span></h3>
+            <p class="p-line"><span data-lang="en">Front-end interface for internal operations and financial workflows</span><span data-lang="ar">واجهة أمامية للعمليات الداخلية وسير العمل المالي</span></p>
+          </div>
+          <div class="p-badges">
+            <span class="pbadge pb-blue"><span data-lang="en">System UI</span><span data-lang="ar">واجهة سيستم</span></span>
+            <span class="pbadge pb-cyan"><span data-lang="en">Engineering</span><span data-lang="ar">هندسي</span></span>
+          </div>
+          <div class="p-toggle">+</div>
+        </div>
+        <div class="pcard-body">
+          <div class="pcard-inner">
+            <div>
+              <div class="cb-lbl"><span data-lang="en">Overview</span><span data-lang="ar">نظرة عامة</span></div>
+              <p class="cb-desc"><span data-lang="en">A structured front-end system designed for an engineering group to organize projects, support internal workflows, and present financial information through clear, scalable, and dashboard-oriented screens.</span><span data-lang="ar">واجهة سيستم أمامية منظمة صممت لمجموعة هندسية بهدف تنظيم المشاريع ودعم سير العمل الداخلي وعرض المعلومات المالية من خلال شاشات واضحة وقابلة للتوسع وبأسلوب داشبورد.</span></p>
+              <ul class="feats">
+                <li><span data-lang="en">Dashboard-based layout and structured navigation</span><span data-lang="ar">تخطيط بأسلوب الداشبورد وتنقل منظم</span></li>
+                <li><span data-lang="en">Operational and financial data presentation</span><span data-lang="ar">عرض البيانات التشغيلية والمالية</span></li>
+                <li><span data-lang="en">Built using HTML, CSS, JavaScript, and TypeScript</span><span data-lang="ar">تم بناؤه باستخدام HTML وCSS وJavaScript وTypeScript</span></li>
+              </ul>
+
+              <div class="cs-block" onclick="event.stopPropagation(); toggleCaseStudy(this)">
+  <button class="cs-toggle-btn" type="button">
+    <span class="pbadge pb-purple">Case Study</span>
+  </button>
+
+  <div class="cs-content" style="margin-top:1.5rem; display:none;">
+
+  <div class="cb-lbl"><span data-lang="en">Challenge</span><span data-lang="ar">التحدي</span></div>
+  <p class="cb-desc">
+    <span data-lang="en">The Al-Balawi Group required a robust internal system to manage complex financial operations, user roles, and administrative workflows across multiple departments.</span>
+    <span data-lang="ar">احتاجت مجموعة البلوي إلى نظام داخلي قوي لإدارة العمليات المالية المعقدة وصلاحيات المستخدمين وسير العمل الإداري بين عدة أقسام.</span>
+  </p>
+
+  <div class="cb-lbl" style="margin-top:1.2rem;"><span data-lang="en">Solution</span><span data-lang="ar">الحل</span></div>
+  <p class="cb-desc">
+    <span data-lang="en">Developed a structured front-end interface for a financial management system including secure authentication flows, role-based UI access, real-time financial tracking dashboards, and clear reporting layouts supporting multiple user roles.</span>
+    <span data-lang="ar">تم تطوير واجهة أمامية منظمة لنظام إدارة مالية تتضمن تدفقات تسجيل دخول آمنة، واجهات مخصصة حسب الصلاحيات، داشبورد لتتبع البيانات المالية بشكل مباشر، وتصميم تقارير واضح يدعم تعدد أنواع المستخدمين.</span>
+  </p>
+
+  <div class="cb-lbl" style="margin-top:1.2rem;"><span data-lang="en">Results</span><span data-lang="ar">النتائج</span></div>
+  <ul class="feats">
+    <li>
+      <span data-lang="en">Streamlined financial operations and reduced manual data entry by 80%</span>
+      <span data-lang="ar">تحسين العمليات المالية وتقليل الإدخال اليدوي بنسبة 80%</span>
+    </li>
+    <li>
+      <span data-lang="en">Implemented secure role-based interface behavior</span>
+      <span data-lang="ar">تطبيق واجهات تعتمد على الصلاحيات بشكل آمن</span>
+    </li>
+    <li>
+      <span data-lang="en">Created real-time financial dashboards and reporting views</span>
+      <span data-lang="ar">إنشاء داشبورد وتقارير مالية محدثة بشكل مباشر</span>
+    </li>
+    <li>
+      <span data-lang="en">Improved administrative efficiency across departments</span>
+      <span data-lang="ar">رفع كفاءة العمل الإداري بين الأقسام</span>
+    </li>
+  </ul>
+
+</div>
+    <ul class="feats">
+      <li>
+        <span data-lang="en">Scattered operational data across multiple screens</span>
+        <span data-lang="ar">تشتت البيانات التشغيلية بين عدة شاشات</span>
+      </li>
+      <li>
+        <span data-lang="en">Complex financial information difficult to read</span>
+        <span data-lang="ar">تعقيد عرض البيانات المالية وصعوبة قراءتها</span>
+      </li>
+    </ul>
+
+    <div class="cb-lbl" style="margin-top:1.2rem;"><span data-lang="en">Solution</span><span data-lang="ar">الحلول</span></div>
+    <ul class="feats">
+      <li>
+        <span data-lang="en">Designed a structured dashboard layout with clear hierarchy</span>
+        <span data-lang="ar">تصميم داشبورد بهرمية واضحة وتنظيم للمحتوى</span>
+      </li>
+      <li>
+        <span data-lang="en">Simplified financial UI with grouped and readable sections</span>
+        <span data-lang="ar">تبسيط واجهة البيانات المالية وتقسيمها بشكل واضح</span>
+      </li>
+    </ul>
+
+    <div class="cb-lbl" style="margin-top:1.2rem;"><span data-lang="en">Result</span><span data-lang="ar">النتيجة</span></div>
+    <ul class="feats">
+      <li>
+        <span data-lang="en">Clearer system navigation and faster access to data</span>
+        <span data-lang="ar">تنقل أوضح داخل النظام وسرعة الوصول للمعلومات</span>
+      </li>
+      <li>
+        <span data-lang="en">More professional and scalable interface</span>
+        <span data-lang="ar">واجهة أكثر احترافية وقابلة للتوسع</span>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<a class="gh-link" href="https://github.com/yourusername/mohammed-albluwi-system" target="_blank" rel="noopener">
+                <span data-lang="en">View on GitHub</span>
+                <span data-lang="ar">عرض على GitHub</span>
+              </a>
+            </div>
+            <div class="tech-stack">
+              <div>
+                <div class="cb-lbl"><span data-lang="en">Tech Stack</span><span data-lang="ar">التقنيات</span></div>
+                <div class="t-pills">
+                  <span class="tp">HTML</span>
+                  <span class="tp">CSS</span>
+                  <span class="tp">JavaScript</span>
+                  <span class="tp">TypeScript</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pcard r d1" onclick="toggleProject(this)">
+        <div class="pcard-head">
+          <div class="p-idx">02</div>
+          <div class="p-meta">
+            <h3 class="p-name">1%</h3>
+            <p class="p-line"><span data-lang="en">Pottery e-commerce front-end platform</span><span data-lang="ar">واجهة متجر إلكتروني للفخار</span></p>
+          </div>
+          <div class="p-badges">
+            <span class="pbadge pb-purple"><span data-lang="en">E-Commerce</span><span data-lang="ar">تجارة إلكترونية</span></span>
+            <span class="pbadge pb-cyan"><span data-lang="en">Retail</span><span data-lang="ar">بيع منتجات</span></span>
+          </div>
+          <div class="p-toggle">+</div>
+        </div>
+        <div class="pcard-body">
+          <div class="pcard-inner">
+            <div>
+              <div class="cb-lbl"><span data-lang="en">Overview</span><span data-lang="ar">نظرة عامة</span></div>
+              <p class="cb-desc"><span data-lang="en">A pottery e-commerce platform built to present handmade products through clean visual hierarchy, responsive layouts, and a smooth shopping-oriented front-end experience.</span><span data-lang="ar">منصة تجارة إلكترونية للفخار صممت لعرض المنتجات اليدوية من خلال تسلسل بصري واضح وتخطيطات متجاوبة وتجربة أمامية سلسة موجهة للتسوق.</span></p>
+              <ul class="feats">
+                <li><span data-lang="en">Product-focused visual presentation</span><span data-lang="ar">عرض بصري يركز على المنتجات</span></li>
+                <li><span data-lang="en">Responsive shopping interface</span><span data-lang="ar">واجهة تسوق متجاوبة</span></li>
+                <li><span data-lang="en">Clean and structured front-end flow</span><span data-lang="ar">تدفق واجهات نظيف ومنظم</span></li>
+              </ul>
+
+              <a class="gh-link" href="https://alhnoufawad.github.io/OP-artist/" target="_blank" rel="noopener">
+                <span data-lang="en">View on GitHub</span>
+                <span data-lang="ar">عرض على GitHub</span>
+              </a>
+            </div>
+            <div class="tech-stack">
+              <div>
+                <div class="cb-lbl"><span data-lang="en">Tech Stack</span><span data-lang="ar">التقنيات</span></div>
+                <div class="t-pills">
+                  <span class="tp">HTML</span>
+                  <span class="tp">CSS</span>
+                  <span class="tp">JavaScript</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pcard r d2" onclick="toggleProject(this)">
+        <div class="pcard-head">
+          <div class="p-idx">03</div>
+          <div class="p-meta">
+            <h3 class="p-name">Xthon</h3>
+            <p class="p-line"><span data-lang="en">University of Tabuk event platform</span><span data-lang="ar">منصة فعالية تابعة لجامعة تبوك</span></p>
+          </div>
+          <div class="p-badges">
+            <span class="pbadge pb-blue"><span data-lang="en">Event Platform</span><span data-lang="ar">منصة فعالية</span></span>
+            <span class="pbadge pb-gold"><span data-lang="en">University</span><span data-lang="ar">جامعي</span></span>
+          </div>
+          <div class="p-toggle">+</div>
+        </div>
+        <div class="pcard-body">
+          <div class="pcard-inner">
+            <div>
+              <div class="cb-lbl"><span data-lang="en">Overview</span><span data-lang="ar">نظرة عامة</span></div>
+              <p class="cb-desc"><span data-lang="en">A front-end platform developed for Xthon at the University of Tabuk to present the event identity, participant flow, and essential information through an engaging and modern interface.</span><span data-lang="ar">منصة واجهات أمامية طُورت لفعالية Xthon في جامعة تبوك، بهدف عرض هوية الحدث ومسار المشاركين والمعلومات الأساسية عبر واجهة حديثة وجذابة.</span></p>
+              <ul class="feats">
+                <li><span data-lang="en">Modern event-focused visual system</span><span data-lang="ar">نظام بصري حديث مخصص للفعالية</span></li>
+                <li><span data-lang="en">Clear content hierarchy and navigation</span><span data-lang="ar">تسلسل واضح للمحتوى والتنقل</span></li>
+                <li><span data-lang="en">Responsive layout for participant access</span><span data-lang="ar">تخطيط متجاوب لسهولة وصول المشاركين</span></li>
+              </ul>
+
+              <a class="gh-link" href="https://alhnoufawad.github.io/X-thon1/" target="_blank" rel="noopener">
+                <span data-lang="en">View on GitHub</span>
+                <span data-lang="ar">عرض على GitHub</span>
+              </a>
+            </div>
+            <div class="tech-stack">
+              <div>
+                <div class="cb-lbl"><span data-lang="en">Tech Stack</span><span data-lang="ar">التقنيات</span></div>
+                <div class="t-pills">
+                  <span class="tp">HTML</span>
+                  <span class="tp">CSS</span>
+                  <span class="tp">JavaScript</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pcard r d3" onclick="toggleProject(this)">
+        <div class="pcard-head">
+          <div class="p-idx">04</div>
+          <div class="p-meta">
+            <h3 class="p-name"><span data-lang="en">Suhb Tech Website</span><span data-lang="ar">موقع سهب التقنية</span></h3>
+            <p class="p-line"><span data-lang="en">Corporate website for a technology company</span><span data-lang="ar">موقع شركة تقنية</span></p>
+          </div>
+          <div class="p-badges">
+            <span class="pbadge pb-purple"><span data-lang="en">Corporate</span><span data-lang="ar">شركة</span></span>
+            <span class="pbadge pb-cyan"><span data-lang="en">Technology</span><span data-lang="ar">تقنية</span></span>
+          </div>
+          <div class="p-toggle">+</div>
+        </div>
+        <div class="pcard-body">
+          <div class="pcard-inner">
+            <div>
+              <div class="cb-lbl"><span data-lang="en">Overview</span><span data-lang="ar">نظرة عامة</span></div>
+              <p class="cb-desc"><span data-lang="en">A professional corporate website built to present Suhb Tech’s services, brand identity, and business communication through a confident and responsive front-end interface.</span><span data-lang="ar">موقع شركة احترافي تم بناؤه لعرض خدمات سهب التقنية وهوية العلامة والتواصل المؤسسي من خلال واجهة أمامية واثقة ومتجاوبة.</span></p>
+              <ul class="feats">
+                <li><span data-lang="en">Clear brand presentation and structure</span><span data-lang="ar">عرض واضح لهوية العلامة وبنيتها</span></li>
+                <li><span data-lang="en">Responsive company website interface</span><span data-lang="ar">واجهة موقع شركة متجاوبة</span></li>
+                <li><span data-lang="en">Professional content flow and visual clarity</span><span data-lang="ar">تدفق محتوى احترافي ووضوح بصري</span></li>
+              </ul>
+
+              <a class="gh-link" href="file:///C:/Users/User/Desktop/project%20suhb%202/index5.html" target="_blank" rel="noopener">
+                <span data-lang="en">View on GitHub</span>
+                <span data-lang="ar">عرض على GitHub</span>
+              </a>
+            </div>
+            <div class="tech-stack">
+              <div>
+                <div class="cb-lbl"><span data-lang="en">Tech Stack</span><span data-lang="ar">التقنيات</span></div>
+                <div class="t-pills">
+                  <span class="tp">HTML</span>
+                  <span class="tp">CSS</span>
+                  <span class="tp">JavaScript</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="sec-wrap">
+    <div class="sec-header r">
+      <div class="sec-num">03</div>
+      <h2 class="sec-title"><span data-lang="en">Experience</span><span data-lang="ar">الخبرة</span></h2>
+      <div class="sec-rule"></div>
+    </div>
+
+    <div class="exp-list">
+      <div class="exp-card r">
+        <div class="exp-top">
+          <div>
+            <div class="exp-role"><span data-lang="en">Executive Administration Manager</span><span data-lang="ar">مديرة الإدارة التنفيذية</span></div>
+            <div class="exp-co"><span data-lang="en">Suhb Tech Foundation</span><span data-lang="ar">مؤسسة سهب التقنية</span></div>
+          </div>
+          <div class="exp-dur"><span data-lang="en">Current</span><span data-lang="ar">حاليًا</span></div>
+        </div>
+        <div class="exp-desc"><span data-lang="en">A role that strengthened my understanding of digital communication, project coordination, and the structured delivery of technical work within a professional environment.</span><span data-lang="ar">دور مهني عزز فهمي للتواصل الرقمي وتنسيق المشاريع وتقديم الأعمال التقنية بشكل منظم داخل بيئة احترافية.</span></div>
+        <div class="exp-achs">
+          <div class="exp-ach"><span class="ach-dot">•</span><span data-lang="en">Supported organized digital workflows</span><span data-lang="ar">دعمت سير العمل الرقمي المنظم</span></div>
+          <div class="exp-ach"><span class="ach-dot">•</span><span data-lang="en">Strengthened communication and project structure</span><span data-lang="ar">عززت التواصل وهيكلة المشاريع</span></div>
+        </div>
+      </div>
+
+      <div class="exp-card r d1">
+        <div class="exp-top">
+          <div>
+            <div class="exp-role"><span data-lang="en">Front-End Development Instructor</span><span data-lang="ar">مدربة تطوير واجهات</span></div>
+            <div class="exp-co"><span data-lang="en">5-Day Intensive Training</span><span data-lang="ar">برنامج تدريبي مكثف لمدة 5 أيام</span></div>
+          </div>
+          <div class="exp-dur">5 Days</div>
+        </div>
+        <div class="exp-desc"><span data-lang="en">Delivered a focused front-end training program covering HTML, CSS, JavaScript, responsive design, and the practical implementation of structured interfaces.</span><span data-lang="ar">قدمت برنامجًا تدريبيًا مركزًا في تطوير الواجهات شمل HTML وCSS وJavaScript والتصميم المتجاوب والتطبيق العملي لهيكلة الواجهات.</span></div>
+        <div class="exp-achs">
+          <div class="exp-ach"><span class="ach-dot">•</span><span data-lang="en">Explained front-end fundamentals and implementation</span><span data-lang="ar">شرحت أساسيات الفرونت وآلية التطبيق</span></div>
+          <div class="exp-ach"><span class="ach-dot">•</span><span data-lang="en">Guided learners through responsive page building</span><span data-lang="ar">وجهت المتدربين في بناء صفحات متجاوبة</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="sec-wrap">
+    <div class="sec-header r">
+      <div class="sec-num">04</div>
+      <h2 class="sec-title"><span data-lang="en">Skills</span><span data-lang="ar">المهارات</span></h2>
+      <div class="sec-rule"></div>
+    </div>
+
+    <div class="skills-grid">
+      <div class="r">
+        <div class="s-col-head">
+          <div class="s-col-icon">⌘</div>
+          <div class="s-col-title"><span data-lang="en">Core Front-End</span><span data-lang="ar">الفرونت إند الأساسي</span></div>
+        </div>
+        <div class="skill-chips">
+          <span class="sc">HTML</span>
+          <span class="sc">CSS</span>
+          <span class="sc">JavaScript</span>
+          <span class="sc">TypeScript</span>
+          <span class="sc"><span data-lang="en">Responsive Design</span><span data-lang="ar">التصميم المتجاوب</span></span>
+        </div>
+      </div>
+
+      <div class="r d1">
+        <div class="s-col-head">
+          <div class="s-col-icon">✦</div>
+          <div class="s-col-title"><span data-lang="en">Tools & Workflow</span><span data-lang="ar">الأدوات وسير العمل</span></div>
+        </div>
+        <div class="skill-chips">
+          <span class="sc">Git</span>
+          <span class="sc">GitHub</span>
+          <span class="sc">VS Code</span>
+          <span class="sc">Figma</span>
+          <span class="sc"><span data-lang="en">UI Structure</span><span data-lang="ar">هيكلة الواجهة</span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tech-strip r d2">
+      <div class="ts-title"><span data-lang="en">Working Style</span><span data-lang="ar">أسلوب العمل</span></div>
+      <div class="ts-chips">
+        <span class="tsc"><span data-lang="en">Clear hierarchy</span><span data-lang="ar">هرمية واضحة</span></span>
+        <span class="tsc"><span data-lang="en">Professional presentation</span><span data-lang="ar">عرض احترافي</span></span>
+        <span class="tsc"><span data-lang="en">Scalable interfaces</span><span data-lang="ar">واجهات قابلة للتوسع</span></span>
+        <span class="tsc"><span data-lang="en">User-centered flow</span><span data-lang="ar">تدفق يركز على المستخدم</span></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="sec-wrap">
+    <div class="sec-header r">
+      <div class="sec-num">05</div>
+      <h2 class="sec-title"><span data-lang="en">Education</span><span data-lang="ar">التعليم</span></h2>
+      <div class="sec-rule"></div>
+    </div>
+
+    <div class="edu-wrap">
+      <div class="edu-card r">
+        <div class="edu-top">
+          <div class="edu-icon-wrap">🎓</div>
+          <div>
+            <div class="edu-degree"><span data-lang="en">Management Information Systems</span><span data-lang="ar">نظم المعلومات الإدارية</span></div>
+            <div class="edu-univ"><span data-lang="en">University of Tabuk</span><span data-lang="ar">جامعة تبوك</span></div>
+          </div>
+        </div>
+        <div class="edu-status">
+          <div class="edu-s-dot"></div>
+          <div class="edu-s-text"><span data-lang="en">Recent Graduate</span><span data-lang="ar">حديث تخرج</span></div>
+        </div>
+        <div class="edu-bio"><span data-lang="en">My academic background in MIS supports my technical practice with a broader understanding of systems, workflow, business structure, and digital solutions.</span><span data-lang="ar">دعمتني خلفيتي الأكاديمية في نظم المعلومات الإدارية بفهم أوسع للأنظمة وسير العمل والبنية المؤسسية والحلول الرقمية، وهو ما ينعكس على عملي في تطوير الواجهات.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="sec-wrap">
+    <div class="sec-header r">
+      <div class="sec-num">06</div>
+      <h2 class="sec-title"><span data-lang="en">Contact</span><span data-lang="ar">التواصل</span></h2>
+      <div class="sec-rule"></div>
+    </div>
+
+    <div class="contact-wrap">
+      <div class="r">
+        <div class="contact-h"><span data-lang="en">Let’s build thoughtful digital experiences.</span><span data-lang="ar">لنصنع تجارب رقمية متقنة وذات قيمة.</span></div>
+        <div class="contact-sub"><span data-lang="en">Open to front-end opportunities, internships, and collaborative digital projects.</span><span data-lang="ar">منفتحة على فرص الفرونت إند والتدريب والتعاون في المشاريع الرقمية.</span></div>
+      </div>
+
+      <div class="r d1">
+        <div class="contact-rows">
+          <div class="crow"><div class="crow-k">Email</div><a class="crow-v" href="mailto:alhnoufawad@gmail.com">alhnoufawad@gmail.com</a></div>
+          <div class="crow"><div class="crow-k">GitHub</div><a class="crow-v" href="https://github.com/alhnoufawad" target="_blank" rel="noopener">github.com/alhnoufawad</a></div>
+          <div class="crow"><div class="crow-k">LinkedIn</div><a class="crow-v" href="https://linkedin.com/in/alhnouf-alenezi-54675028a" target="_blank" rel="noopener">linkedin.com/in/alhnouf-alenezi-54675028a</a></div>
+          <div class="crow"><div class="crow-k">WhatsApp</div><a class="crow-v"href="https://wa.me/966503973950"target="_blank"rel="noopener">+966503973950</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand-name"><span data-lang="en">Alhnouf Alenezi</span><span data-lang="ar">الهنوف العنزي</span></div>
+      <div class="footer-brand-role"><span data-lang="en">Front-End Developer</span><span data-lang="ar">مطورة واجهات أمامية</span></div>
+    </div>
+    <div>
+      <div class="footer-col-lbl"><span data-lang="en">Navigation</span><span data-lang="ar">التنقل</span></div>
+      <div class="footer-links">
+        <a href="#about"><span data-lang="en">About</span><span data-lang="ar">نبذة</span></a>
+        <a href="#projects"><span data-lang="en">Projects</span><span data-lang="ar">المشاريع</span></a>
+        <a href="#contact"><span data-lang="en">Contact</span><span data-lang="ar">التواصل</span></a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-lbl"><span data-lang="en">Links</span><span data-lang="ar">الروابط</span></div>
+      <div class="footer-socials">
+        <a class="fsocial" href="https://github.com/alhnoufawad" target="_blank" rel="noopener">GitHub</a>
+        <a class="fsocial" href="https://linkedin.com/in/alhnouf-alenezi-54675028a" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="fsocial" href="https://wa.me/966503973950" target="_blank" rel="noopener">WhatsApp</a>
+        <a class="fsocial" href="mailto:alhnoufawad@gmail.com">Email</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="footer-copy"><span data-lang="en">© 2026 ALHNOUF ALENEZI — ALL RIGHTS RESERVED</span><span data-lang="ar">© 2026 الهنوف العنزي — جميع الحقوق محفوظة</span></div>
+  </div>
+</footer>
+
+<script>
+const html = document.documentElement;
+const langBtn = document.getElementById('langBtn');
+const mobileNav = document.getElementById('mobileNav');
+const hamburger = document.getElementById('hamburger');
+const cDot = document.getElementById('cDot');
+const cRing = document.getElementById('cRing');
+
+function updateLanguage(isArabic) {
+  html.lang = isArabic ? 'ar' : 'en';
+  html.dir = isArabic ? 'rtl' : 'ltr';
+  langBtn.textContent = isArabic ? 'EN' : 'AR';
+  langBtn.classList.toggle('active', isArabic);
+}
+
+langBtn.addEventListener('click', () => {
+  const isArabic = html.lang !== 'ar';
+  updateLanguage(isArabic);
+});
+
+hamburger.addEventListener('click', () => {
+  mobileNav.classList.toggle('open');
+});
+
+mobileNav.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => mobileNav.classList.remove('open'));
+});
+
+document.querySelectorAll('a[href^="#"]').forEach(link => {
+  link.addEventListener('click', (e) => {
+    const targetId = link.getAttribute('href');
+    if (!targetId || targetId === '#') return;
+    const target = document.querySelector(targetId);
+    if (!target) return;
+    e.preventDefault();
+    target.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+
+function toggleProject(card) {
+  const isOpen = card.classList.contains('open');
+  document.querySelectorAll('.pcard.open').forEach(item => item.classList.remove('open'));
+  if (!isOpen) card.classList.add('open');
+}
+window.toggleProject = toggleProject;
+
+function toggleCaseStudy(block) {
+  block.classList.toggle('cs-open');
+}
+window.toggleCaseStudy = toggleCaseStudy;
+
+if (cDot && cRing) {
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', (e) => {
+    mx = e.clientX;
+    my = e.clientY;
+    cDot.style.left = `${mx}px`;
+    cDot.style.top = `${my}px`;
+  });
+  (function animateRing() {
+    rx += (mx - rx) * 0.15;
+    ry += (my - ry) * 0.15;
+    cRing.style.left = `${rx}px`;
+    cRing.style.top = `${ry}px`;
+    requestAnimationFrame(animateRing);
+  })();
+  document.querySelectorAll('a, button, .pcard').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cDot.style.transform = 'translate(-50%, -50%) scale(2.2)';
+      cRing.style.opacity = '0';
+    });
+    el.addEventListener('mouseleave', () => {
+      cDot.style.transform = 'translate(-50%, -50%) scale(1)';
+      cRing.style.opacity = '.8';
+    });
+  });
+}
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('vis');
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.r').forEach(el => observer.observe(el));
+updateLanguage(false);
+</script>
+</body>
+</html>
